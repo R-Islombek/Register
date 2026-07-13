@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import "./App.css"
+
 const TELEGRAM_BOT_TOKEN = '8964366947:AAGQw8VIkNyMz5bcyeRV4kZTQtzvNGk9Rtk'
+
 const TELEGRAM_CHAT_ID = '8525568976'
 
 const REGIONS = [
   'Toshkent shahar',
-  'Toshkent viloyati',
 ]
 
 const App = () => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [telegram, setTelegram] = useState('')
   const [region, setRegion] = useState('')
   const [status, setStatus] = useState('idle') // idle | sending | success | error
   const [errorMsg, setErrorMsg] = useState('')
@@ -21,6 +23,7 @@ const App = () => {
   const validate = () => {
     if (name.trim().length < 2) return 'Ismingizni to\'liq kiriting'
     if (!/^\+?\d{9,13}$/.test(phone.replace(/[\s-]/g, ''))) return 'Telefon raqamni to\'g\'ri kiriting'
+    if (!/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram.trim())) return 'Telegram username\'ni to\'g\'ri kiriting (masalan: @username)'
     if (!region) return 'Hududingizni tanlang'
     if (!isTashkent) return 'Kechirasiz, ro\'yxatdan faqat Toshkent shahar aholisi o\'tishi mumkin'
     return ''
@@ -37,10 +40,13 @@ const App = () => {
     setErrorMsg('')
     setStatus('sending')
 
+    const normalizedTelegram = telegram.trim().startsWith('@') ? telegram.trim() : `@${telegram.trim()}`
+
     const text =
       `🆕 Yangi ro'yxatdan o'tish\n\n` +
       `👤 Ism: ${name}\n` +
       `📞 Telefon: ${phone}\n` +
+      `💬 Telegram: ${normalizedTelegram}\n` +
       `📍 Hudud: ${region}`
 
     try {
@@ -54,6 +60,7 @@ const App = () => {
       setStatus('success')
       setName('')
       setPhone('')
+      setTelegram('')
       setRegion('')
     } catch (err) {
       setErrorMsg('Yuborishda xatolik yuz berdi. Qaytadan urinib ko\'ring.')
@@ -157,6 +164,21 @@ const App = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+998 90 123 45 67"
+                  className="field-input"
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 18 }}>
+                <label htmlFor="telegram" style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: '#12312F', marginBottom: 6, letterSpacing: '0.02em' }}>
+                  Telegram username kiriting
+                </label>
+                <input
+                  id="telegram"
+                  type="text"
+                  value={telegram}
+                  onChange={(e) => setTelegram(e.target.value)}
+                  placeholder="@username"
                   className="field-input"
                   style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
                 />
