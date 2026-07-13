@@ -8,19 +8,6 @@ const TELEGRAM_CHAT_ID = '8525568976'
 
 const REGIONS = [
   'Toshkent shahar',
-  'Toshkent viloyati',
-  'Andijon',
-  'Farg\'ona',
-  'Namangan',
-  'Samarqand',
-  'Buxoro',
-  'Xorazm',
-  'Navoiy',
-  'Qashqadaryo',
-  'Surxondaryo',
-  'Jizzax',
-  'Sirdaryo',
-  'Qoraqalpog\'iston',
 ]
 
 const App = () => {
@@ -28,7 +15,7 @@ const App = () => {
   const [phone, setPhone] = useState('')
   const [telegram, setTelegram] = useState('')
   const [region, setRegion] = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [status, setStatus] = useState('idle') 
   const [errorMsg, setErrorMsg] = useState('')
 
   const isTashkent = region === 'Toshkent shahar'
