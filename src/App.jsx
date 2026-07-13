@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./App.css"
+import bgImage from './bg-it.jpg'
 
 const TELEGRAM_BOT_TOKEN = '8964366947:AAGQw8VIkNyMz5bcyeRV4kZTQtzvNGk9Rtk'
 
@@ -7,6 +8,19 @@ const TELEGRAM_CHAT_ID = '8525568976'
 
 const REGIONS = [
   'Toshkent shahar',
+  'Toshkent viloyati',
+  'Andijon',
+  'Farg\'ona',
+  'Namangan',
+  'Samarqand',
+  'Buxoro',
+  'Xorazm',
+  'Navoiy',
+  'Qashqadaryo',
+  'Surxondaryo',
+  'Jizzax',
+  'Sirdaryo',
+  'Qoraqalpog\'iston',
 ]
 
 const App = () => {
@@ -69,10 +83,11 @@ const App = () => {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0F3B3E', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px', fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ minHeight: '100vh', position: 'relative', background: '#0F3B3E', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px', fontFamily: "'Inter', sans-serif", overflow: 'hidden' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
         .display-font { font-family: 'Marcellus', serif; }
+        .mono-font { font-family: 'JetBrains Mono', monospace; }
         .girih-strip {
           height: 14px;
           width: 100%;
@@ -80,6 +95,37 @@ const App = () => {
                              repeating-linear-gradient(45deg, #D9A441 0 3px, transparent 3px 10px);
           background-size: 20px 14px;
           opacity: 0.9;
+        }
+        .bg-photo {
+          position: absolute;
+          inset: -24px;
+          background-image: url(${bgImage});
+          background-size: cover;
+          background-position: center 30%;
+          filter: blur(5px) brightness(0.7) contrast(1.08) saturate(1.2) hue-rotate(-6deg);
+          transform: scale(1.08);
+          z-index: 0;
+        }
+        .bg-tint {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(circle at 24% 18%, rgba(217,164,65,0.22) 0%, transparent 52%),
+            radial-gradient(circle at 78% 82%, rgba(27,138,143,0.4) 0%, transparent 58%);
+          mix-blend-mode: color;
+          z-index: 0;
+        }
+        .bg-vignette {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at center, transparent 32%, rgba(6,26,28,0.72) 100%);
+          z-index: 0;
+        }
+        .bg-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(160deg, rgba(9,38,40,0.5) 0%, rgba(15,59,62,0.28) 45%, rgba(9,38,40,0.58) 100%);
+          z-index: 0;
         }
         .field-input {
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -104,7 +150,13 @@ const App = () => {
         }
       `}</style>
 
-      <div style={{ position: 'relative', width: '100%', maxWidth: 460, background: '#FBF6EC', borderRadius: 4, overflow: 'hidden', boxShadow: '0 30px 60px -20px rgba(0,0,0,0.45)' }}>
+      <div className="bg-photo" />
+      <div className="bg-tint" />
+      <div className="bg-vignette" />
+      <div className="bg-overlay" />
+
+
+      <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 460, background: '#FBF6EC', borderRadius: 16, overflow: 'hidden', boxShadow: '0 30px 60px -20px rgba(0,0,0,0.45)' }}>
         {/* top ornamental strip */}
         <div className="girih-strip" style={{ background: 'linear-gradient(90deg, #0F3B3E, #1B8A8F)' }} />
 
@@ -125,14 +177,14 @@ const App = () => {
           </p>
 
           {status === 'success' ? (
-            <div style={{ background: '#E9F5EC', border: '1px solid #A9D8B4', borderRadius: 4, padding: '20px 18px', textAlign: 'center' }}>
+            <div style={{ background: '#E9F5EC', border: '1px solid #A9D8B4', borderRadius: 10, padding: '20px 18px', textAlign: 'center' }}>
               <div style={{ fontSize: 30, marginBottom: 8 }}>✅</div>
               <div className="display-font" style={{ fontSize: 19, color: '#1F5B33', marginBottom: 4 }}>Muvaffaqiyatli yuborildi</div>
               <p style={{ fontSize: 13.5, color: '#3E6C4C', margin: '0 0 16px' }}>Tez orada siz bilan bog'lanamiz.</p>
               <button
                 onClick={() => setStatus('idle')}
                 className="submit-btn"
-                style={{ background: '#12312F', color: '#FBF6EC', border: 'none', padding: '10px 20px', borderRadius: 3, fontSize: 13.5, fontWeight: 600, cursor: 'pointer' }}
+                style={{ background: '#12312F', color: '#FBF6EC', border: 'none', padding: '10px 20px', borderRadius: 8, fontSize: 13.5, fontWeight: 600, cursor: 'pointer' }}
               >
                 Yana bittasini yuborish
               </button>
@@ -150,7 +202,7 @@ const App = () => {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Masalan: Aziz Karimov"
                   className="field-input"
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 8, fontSize: 14.5, background: '#fff', color: '#12312F' }}
                 />
               </div>
 
@@ -165,7 +217,7 @@ const App = () => {
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+998 90 123 45 67"
                   className="field-input"
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 8, fontSize: 14.5, background: '#fff', color: '#12312F' }}
                 />
               </div>
 
@@ -180,7 +232,7 @@ const App = () => {
                   onChange={(e) => setTelegram(e.target.value)}
                   placeholder="@username"
                   className="field-input"
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 8, fontSize: 14.5, background: '#fff', color: '#12312F' }}
                 />
               </div>
 
@@ -193,7 +245,7 @@ const App = () => {
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
                   className="field-input"
-                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 3, fontSize: 14.5, background: '#fff', color: '#12312F' }}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', border: '1.5px solid #D8D0BF', borderRadius: 8, fontSize: 14.5, background: '#fff', color: '#12312F' }}
                 >
                   <option value="">Tanlang...</option>
                   {REGIONS.map((r) => (
@@ -203,13 +255,13 @@ const App = () => {
               </div>
 
               {regionChosenButBlocked && (
-                <div style={{ background: '#FBEBE9', border: '1px solid #EFB6AF', borderRadius: 3, padding: '10px 12px', fontSize: 13, color: '#9A3B32', marginBottom: 18 }}>
+                <div style={{ background: '#FBEBE9', border: '1px solid #EFB6AF', borderRadius: 8, padding: '10px 12px', fontSize: 13, color: '#9A3B32', marginBottom: 18 }}>
                   Kechirasiz, ro'yxatdan faqat <strong>Toshkent shahar</strong> aholisi o'tishi mumkin.
                 </div>
               )}
 
               {status === 'error' && errorMsg && !regionChosenButBlocked && (
-                <div style={{ background: '#FBEBE9', border: '1px solid #EFB6AF', borderRadius: 3, padding: '10px 12px', fontSize: 13, color: '#9A3B32', marginBottom: 18 }}>
+                <div style={{ background: '#FBEBE9', border: '1px solid #EFB6AF', borderRadius: 8, padding: '10px 12px', fontSize: 13, color: '#9A3B32', marginBottom: 18 }}>
                   {errorMsg}
                 </div>
               )}
@@ -224,7 +276,7 @@ const App = () => {
                   background: status === 'sending' || regionChosenButBlocked ? '#9BB3B1' : '#1B8A8F',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: 3,
+                  borderRadius: 8,
                   fontSize: 14.5,
                   fontWeight: 600,
                   letterSpacing: '0.02em',
